@@ -33,6 +33,7 @@ public class HttpSecurityConfig {
                 .authorizeHttpRequests(authConfig -> {
 
                     authConfig.requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll();
+                    authConfig.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     authConfig.requestMatchers("/error").permitAll();
                     authConfig.requestMatchers("/api/v1/tareas/*").authenticated();
                     authConfig.requestMatchers("/api/v1/usuarios/*").authenticated();
