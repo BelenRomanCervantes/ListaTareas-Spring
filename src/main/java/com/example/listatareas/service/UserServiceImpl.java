@@ -6,6 +6,7 @@ import com.example.listatareas.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<List<User>> getAll() {
@@ -33,6 +37,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public ResponseEntity<User> createUser(@RequestBody User newUser){
         try {
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
             User response = userRepository.save(newUser);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception ex){
@@ -66,9 +71,9 @@ public class UserServiceImpl implements UserService{
         currentUser.setBirthdate(newData.getBirthdate());
         currentUser.setUsername(newData.getUsername());
         currentUser.setEmail(newData.getEmail());
-        currentUser.setPassword(newData.getPassword());
 
         try {
+            currentUser.setPassword(passwordEncoder.encode(newData.getPassword()));
             userRepository.save(currentUser);
             return ResponseEntity.noContent().build();
         } catch (Exception ex){
