@@ -35,8 +35,8 @@ public class HttpSecurityConfig {
                     authConfig.requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     authConfig.requestMatchers("/error").permitAll();
-                    authConfig.requestMatchers("/api/v1/tareas/*").authenticated();
-                    authConfig.requestMatchers("/api/v1/usuarios/*").authenticated();
+                    authConfig.requestMatchers("/api/v1/tareas/**").authenticated();
+                    authConfig.requestMatchers("/api/v1/usuarios/**").authenticated();
 
                     authConfig.anyRequest().denyAll();
                 });
