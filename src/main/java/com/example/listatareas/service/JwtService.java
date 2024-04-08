@@ -2,6 +2,7 @@ package com.example.listatareas.service;
 
 import com.example.listatareas.config.security.SecurityProperties;
 import com.example.listatareas.models.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
@@ -34,5 +36,18 @@ public class JwtService {
 
     private Key generateKey() {
         return Keys.hmacShaKeyFor(securityProperties.getSecretKey().getBytes());
+    }
+
+    public String extractUsername(String jwt) {
+        return extractAllClaims(jwt).getSubject();
+
+    }
+
+    private Claims extractAllClaims(String jwt) {
+        return Jwts.parser()
+                .verifyWith((SecretKey) generateKey())
+                .build()
+                .parseSignedClaims(jwt)
+                .getPayload();
     }
 }
