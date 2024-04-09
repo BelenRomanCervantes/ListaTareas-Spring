@@ -20,6 +20,7 @@ public class Task {
     private LocalDate dateline;
 
     private String tag;
+    private String status;
     public Task() {
 
     }

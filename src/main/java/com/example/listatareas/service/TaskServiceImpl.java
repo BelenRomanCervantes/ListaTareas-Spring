@@ -61,6 +61,7 @@ public class TaskServiceImpl implements TaskService {
         currentTask.setDescription(newData.getDescription());
         currentTask.setDateline(newData.getDateline());
         currentTask.setTag(newData.getTag());
+        currentTask.setStatus(newData.getStatus());
 
         try {
             repository.save(currentTask);
